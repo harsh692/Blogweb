@@ -6,10 +6,11 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 import os
 
-import sqlalchemy
 
 app=Flask(__name__)
 
+
+app.config['SECRET_KEY'] = 'mysecret'
 
 ############################
 ####### DATABASE SETUP #####
@@ -19,7 +20,7 @@ basedir= os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'data.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 
-db = sqlalchemy(app)
+db = SQLAlchemy(app)
 Migrate(app,db)
 
 ############################

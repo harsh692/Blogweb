@@ -24,21 +24,30 @@
         <li class="nav-link">
             <a href="{{url_for('core.info')}}">About</a>
         </li>
-        <li class="nav-link">
-            <a href="#">Account</a>
-        </li>
-        <li class="nav-link">
-            <a href="#">create post</a>
-        </li>
-        <li class="nav-link">
-            <a href="#">Log in</a>
-        </li>
-        <li class="nav-link">
-            <a href="#">register</a>
-        </li>
-        <li class="nav-link">
-            <a href="#">Log out</a>
-        </li>
+
+        {% if current_user.is_authenticated %}
+
+
+            <li class="nav-link">
+                <a href="{{url_for('users.logout')}}">Log out</a>
+            </li>
+            <li class="nav-link">
+                <a href="{{url_for('users.account')}}">Account</a>
+            </li>
+            <li class="nav-link">
+                <a href="#">create post</a>
+            </li>
+
+        {% else %}
+
+            <li class="nav-link">
+                <a href="{{url_for('users.login')}}">Log in</a>
+            </li>
+            <li class="nav-link">
+                <a href="{{url_for('users.register')}}">register</a>
+            </li>
+        
+        {% endif %}
 
     </ul>
     

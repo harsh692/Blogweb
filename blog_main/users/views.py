@@ -6,7 +6,7 @@
 # account(update flaskform)
 # user's list of BlogPosts
 
-from crypt import methods
+
 from flask import render_template,url_for,flash,redirect,request,Blueprint
 from flask_login import login_user,current_user,logout_user,login_required
 from blog_main import db
@@ -25,7 +25,7 @@ def register():
 
     if form.validate_on_submit():
         user = User(email=form.email.data,
-                    username=form.password.data,
+                    username=form.username.data,
                     password=form.password.data)   ### creating a user and adding them in
 
         db.session.add(user)
@@ -93,3 +93,12 @@ def account():
     return render_template('account.html',profile_image=profile_image,form=form)
 
 # user's list of BlogPosts
+
+@users.route('/<username>')
+def user_posts(username):
+    page = request.args.get('page',1,type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    blog_posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).pageinate(page=page,per_page=5)
+    return render_template('user_blog_posts.html',blog_posts=blog_posts,user=user)
+
+    ############### end #######
